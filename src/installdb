@@ -1,0 +1,8 @@
+CREATE FUNCTION ta_ema RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_rsi RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_sma RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_sum RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_previous RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_max RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+CREATE FUNCTION ta_min RETURNS REAL SONAME 'lib_mysqludf_ta.so';
