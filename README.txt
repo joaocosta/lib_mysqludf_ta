@@ -22,6 +22,12 @@ ADX
 Possibly others
 
 
+AVAILABILITY:
+
+Source repository at:
+http://github.com/joaocosta/lib_mysqludf_ta
+
+
 
 COMPILING:
 
