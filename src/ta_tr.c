@@ -1,5 +1,5 @@
 /*
-   Copyright (c) <2009> <João Costa>
+   Copyright (c) <2010> <João Costa>
    Dual licensed under the MIT and GPL licenses.
  */
 #include <stdlib.h>
@@ -10,6 +10,7 @@
 #include <my_sys.h>
 #include <mysql.h>
 #include <ctype.h>
+#include "ta_libmysqludf_ta.h"
 
 /*
    CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.so';
@@ -21,7 +22,7 @@ typedef struct ta_tr_data_ {
 	int init;
 } ta_tr_data;
 
-my_bool ta_tr_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
+DLLEXP my_bool ta_tr_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 {
 	ta_tr_data* data;
 
@@ -69,12 +70,12 @@ my_bool ta_tr_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 	return 0;
 }
 
-void ta_tr_deinit(UDF_INIT *initid)
+DLLEXP void ta_tr_deinit(UDF_INIT *initid)
 {
 	free(initid->ptr);
 }
 
-double ta_tr(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
+DLLEXP double ta_tr(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
 	ta_tr_data *data = (ta_tr_data *)initid->ptr;
 	double *high = (double *)args->args[0];

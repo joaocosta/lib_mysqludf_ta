@@ -1,5 +1,5 @@
 /*
-   Copyright (c) <2009> <João Costa>
+   Copyright (c) <2010> <João Costa>
    Dual licensed under the MIT and GPL licenses.
  */
 #include <stdlib.h>
@@ -10,6 +10,7 @@
 #include <my_sys.h>
 #include <mysql.h>
 #include <ctype.h>
+#include "ta_libmysqludf_ta.h"
 
 /*
    CREATE FUNCTION ta_rsi RETURNS REAL SONAME 'lib_mysqludf_ta.so';
@@ -24,7 +25,7 @@ struct ta_rsi_data {
 };
 
 
-my_bool ta_rsi_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
+DLLEXP my_bool ta_rsi_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 {
 	struct ta_rsi_data* data;
 
@@ -64,14 +65,15 @@ my_bool ta_rsi_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 	return 0;
 }
 
-void ta_rsi_deinit(UDF_INIT *initid)
+DLLEXP void ta_rsi_deinit(UDF_INIT *initid)
 {
 	free(initid->ptr);
 }
 
-double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
+DLLEXP double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 {
 	struct ta_rsi_data *data = (struct ta_rsi_data *)initid->ptr;
+	double *value = (double *)args->args[0];
 	int *periods = (int *)args->args[1];
 	double currentGain = 0, currentLoss = 0;
 
@@ -83,8 +85,6 @@ double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error)
 		*is_null = 1;
 		return 0.0;
 	}
-
-	double *value = (double *)args->args[0];
 
 	if (data->current == 0) {
 		data->current = 1;
