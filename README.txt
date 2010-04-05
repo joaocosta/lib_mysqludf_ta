@@ -44,9 +44,10 @@ Linux:
 You need the following to build this library:
 
 - gcc or some other C compiler
-- mysql development packages
+- mysql development packages (eg: "yum install mysql-devel" in Fedora)
 
-Just run make and it should build a shared library lib_mysqludf_ta.so. You might need to edit the Makefile to tell the compiler where to find the MySQL development header files.
+Just run make and it should build a shared library lib_mysqludf_ta.so.
+You might need to edit the Makefile to tell the compiler where to find the MySQL development header files.
 
 For more information on compiling MySQL UDFs:
 http://dev.mysql.com/doc/refman/5.1/en/udf-compiling.html
