@@ -2,8 +2,6 @@ DESCRIPTION:
 
 Implements technical analysis functions as MySQL UDFs.
 
-This is currently alpha software, it seems to work but has not been thoroughly tested.
-
 Currently implemented functions are:
 
 TA_SMA
