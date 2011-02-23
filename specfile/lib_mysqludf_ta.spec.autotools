@@ -1,0 +1,46 @@
+Name:           libmysqludf_ta
+Version:        0.1
+Release:        1%{?dist}
+Summary: Technical analisys functions implemented as MySQL user defined functions
+Group:          Development/Libraries
+License:        GPL/MIT
+URL:            http://www.mysqludf.org/lib_mysqludf_ta/lib_mysqludf_ta.tar.gz
+Source0:        lib_mysqludf_ta-0.1.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Requires:       mysql-server >= 5.1
+Requires:       mysql
+
+%description
+
+
+%prep
+%setup -q -c
+rm -f *.o
+
+
+%build
+%configure
+make %{?_smp_mflags}
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+echo $RPM_BUILD_ROOT
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root,-)
+%doc
+#/usr/lib/mysql/plugin/lib_mysqludf_ta.so
+#/usr/lib/mysql/plugin/db_install_lib_mysqludf_ta
+#/usr/lib/mysql/plugin/db_uninstall_lib_mysqludf_ta
+
+
+
+%changelog
