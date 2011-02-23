@@ -1,7 +1,7 @@
 #Things you might need to change depending on your environment
-MYSQL_PLUGIN_DIR=/usr/lib/mysql/plugin
+MYSQL_PLUGIN_DIR=`mysql_config --plugindir`
 CC=gcc
-CFLAGS=-Wall -I /usr/include/mysql -c
+CFLAGS=-Wall `mysql_config --include` -c
 LD=ld
 LDFLAGS=-shared
 
