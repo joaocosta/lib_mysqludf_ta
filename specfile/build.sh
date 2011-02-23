@@ -9,5 +9,7 @@ rpmbuild -v -bb --clean specfile/lib_mysqludf_ta.spec
 
 rm -fR ~/rpmbuild
 rpmdev-setuptree
-tar -czPf ~/rpmbuild/SOURCES/lib_mysqludf_ta-0.1.tar.gz *
-rpmbuild -v -bb --clean specfile/lib_mysqludf_ta.spec
+ln -vs lib_mysqludf_ta/ lib_mysqludf_ta-0.1
+tar -hczPf ~/rpmbuild/SOURCES/lib_mysqludf_ta-0.1.tar.gz lib_mysqludf_ta-0.1/
+rm lib_mysqludf_ta-0.1
+rpmbuild -v -bb --clean lib_mysqludf_ta/specfile/lib_mysqludf_ta.spec
