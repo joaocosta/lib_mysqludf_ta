@@ -10,6 +10,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       mysql-server >= 5.1
 Requires:       mysql
+BuildRequires:  mysql
 
 %description
 
@@ -37,9 +38,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc
-#/usr/lib/mysql/plugin/lib_mysqludf_ta.so
-#/usr/lib/mysql/plugin/db_install_lib_mysqludf_ta
-#/usr/lib/mysql/plugin/db_uninstall_lib_mysqludf_ta
+/usr/lib/mysql/plugin/lib_mysqludf_ta.la
+/usr/lib/mysql/plugin/lib_mysqludf_ta.a
+/usr/lib/mysql/plugin/lib_mysqludf_ta.so
+/usr/lib/mysql/plugin/lib_mysqludf_ta.so.0
+/usr/lib/mysql/plugin/lib_mysqludf_ta.so.0.0.0
 
 
 

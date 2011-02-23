@@ -13,7 +13,7 @@ AC_SUBST(LIBTOOL)dnl
 m4_include(config/ax_lib_mysql.m4)
 AX_LIB_MYSQL(,,AC_MSG_ERROR("Can't find mysql library" ))
 
-if test -n "$MYSQL_PLUGINDIR" && test "$libdir" == '${exec_prefix}/lib' ; then
+if test -n "$MYSQL_PLUGINDIR" ; then
   AC_MSG_NOTICE(setting libdir to mysql plugin dir $MYSQL_PLUGINDIR)
   libdir=$MYSQL_PLUGINDIR
   AC_SUBST(libdir)
