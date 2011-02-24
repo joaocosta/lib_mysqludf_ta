@@ -1,6 +1,6 @@
 Name:           lib_mysqludf_ta
 Version:        0.1
-Release:        1%{?dist}
+Release:        1.%{?dist}
 Summary: Technical analisys functions implemented as MySQL user defined functions
 Group:          Development/Libraries
 License:        GPL/MIT
