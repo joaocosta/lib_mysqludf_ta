@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 cd ~/src
 rm -fR ~/rpmbuild
 rpmdev-setuptree
