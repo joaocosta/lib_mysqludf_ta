@@ -33,31 +33,27 @@ Windows:
 
 A binary dll is shipped with this release.
 
+Copy it to the MySQL plugin directory.
+To find out what the MySQL plugin directory is run this in a MySQL prompt:
+
+show variables like 'plugin_dir';
+
+
 The following article describes how to compile MySQL UDFs in Windows:
 http://rpbouman.blogspot.com/2007/09/creating-mysql-udfs-with-microsoft.html
 
 
 Linux:
 
-You need the following to build this library:
+./configure
+make
+sudo make install
 
-- gcc or some other C compiler
-- mysql development packages (eg: "yum install mysql-devel" in Fedora)
-
-Just run make and it should build a shared library lib_mysqludf_ta.so.
-You might need to edit the Makefile to tell the compiler where to find the MySQL development header files.
 
 For more information on compiling MySQL UDFs:
 http://dev.mysql.com/doc/refman/5.1/en/udf-compiling.html
 http://dev.mysql.com/doc/refman/5.1/en/adding-udf.html
 
-
-INSTALLING:
-
-You need to copy the binary library to the MySQL plugin directory.
-To find out what the MySQL plugin directory is run this in MySQL prompt:
-
-show variables like 'plugin_dir';
 
 
 
