@@ -10,6 +10,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       mysql-server >= 5.1
 Requires:       mysql
 BuildRequires:  mysql
+BuildRequires:  mysql-devel
 
 %description
 Implements technical analysis functions as MySQL UDFs.
