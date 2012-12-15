@@ -1,0 +1,73 @@
+CrossOverUp:
+
+SELECT datetime, V1T, V2T, V1B, V2B FROM (
+SELECT *, $EXP1 AS V1T, $EXP2 AS V2T, ta_previous($EXP1,1) AS V1B, ta_previous($EXP2,1) AS V2B
+FROM (
+    SELECT *
+    FROM $SYMBOL_$TF
+    ORDER BY datetime
+) AS T
+) AS T2
+WHERE V1T >= V2T AND V1B < V2B
+
+CrossOverDown:
+
+SELECT datetime, V1T, V2T, V1B, V2B FROM (
+SELECT *, $EXP1 AS V1T, $EXP2 AS V2T, ta_previous($EXP1,1) AS V1B, ta_previous($EXP2,1) AS V2B
+FROM (
+    SELECT *
+    FROM $SYMBOL_$TF
+    ORDER BY datetime
+) AS T
+) AS T2
+WHERE V1T <= V2T AND V1B > V2B
+
+
+Above:
+
+SELECT datetime, V1T, V2T FROM (
+SELECT *, $EXP1 AS V1T, $EXP2 AS V2T
+FROM (
+    SELECT *
+    FROM $SYMBOL_$TF
+    ORDER BY datetime
+) AS T
+) AS T2
+WHERE V1T > V2T
+
+Below:
+
+SELECT datetime, V1T, V2T FROM (
+SELECT *, $EXP1 AS V1T, $EXP2 AS V2T
+FROM (
+    SELECT *
+    FROM $SYMBOL_$TF
+    ORDER BY datetime
+) AS T
+) AS T2
+WHERE V1T < V2T
+
+Gap Up:
+
+SELECT datetime, V1T, V2T FROM (
+SELECT *, low AS V1T, ta_previous(high,1) AS V1B
+FROM (
+    SELECT *
+    FROM $SYMBOL_$TF
+    ORDER BY datetime
+) AS T
+) AS T2
+WHERE V1T > V2T
+
+Gap Down:
+
+SELECT datetime, V1T, V2T FROM (
+SELECT *, high AS V1T, ta_previous(low,1) AS V1B
+FROM (
+    SELECT *
+    FROM $SYMBOL_$TF
+    ORDER BY datetime
+) AS T
+) AS T2
+WHERE V1T < V2T
+
