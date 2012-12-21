@@ -49,6 +49,7 @@ Linux:
 make
 sudo make install
 
+If this fails, try running autogen.sh and repeat the "configure && make && make install" sequence
 
 For more information on compiling MySQL UDFs:
 http://dev.mysql.com/doc/refman/5.1/en/udf-compiling.html
@@ -279,7 +280,8 @@ SELECT ta_ema(CAST(integer_data_field AS DECIMAL(65), 14) FROM TABLE;
 CREATING NEW FUNCTIONS:
 
 The easiest way might be to copy one of the existing .c files to a different name and modify its implementation.
-The provided Makefile will pick up new .c files.
+
+Edit Makefile.am and add the new source file.  To generate a new configure script, run the provided autogen.sh ( this depends on automake, autoconf and libtool being installed ).
 
 
 
