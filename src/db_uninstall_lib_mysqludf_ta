@@ -6,3 +6,4 @@ DROP FUNCTION ta_tr;
 DROP FUNCTION ta_previous;
 DROP FUNCTION ta_max;
 DROP FUNCTION ta_min;
+DROP FUNCTION ta_stddevp;
