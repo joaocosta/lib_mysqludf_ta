@@ -152,8 +152,31 @@ FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
+ta_stddevp - Running Standard Deviation
+
+ta_stddevp(
+    float data, 
+    int period
+)
+
+data   - The data to calculate on
+period - Running period to calculate for
+
+Example:
+
+This function is useful for calculating indicators such as Bollinger Bands.
+
+To calculate the upper limit Bollinger Band of 2 standard deviations over a 21 period sma:
+SELECT datetime, ( ta_sma(close,21) + 2*ta_stddevp(close,21) ) AS `BOL_UP`
+FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+
+To calculate the lower limit Bollinger Band of 2 standard deviations over a 21 period sma:
+SELECT datetime, ( ta_sma(close,21) - 2*ta_stddevp(close,21) ) AS `BOL_DOWN`
+FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+
+------------------------------------------------------------------------------------------------------
+
 ta_sum - Running Sum ( as opposed to aggregate sum )
-This function is useful for calculating some indicators, such as Bollinger Bands.
 
 ta_sum(
     float data, 
@@ -169,13 +192,6 @@ To calculate a 50 running sum of closing prices:
 SELECT datetime, ta_sum(close, 50)
 FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
 
-To calculate the upper limit Bollinger Band of 2 standard deviations over a 21 period sma:
-SELECT datetime, ( ta_sma(close,21) + 2*SQRT(ta_sum(POW(close - ta_sma(close, 21), 2), 21)/21) ) AS `BOL_UP`
-FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
-
-To calculate the lower limit Bollinger Band of 2 standard deviations over a 21 period sma:
-SELECT datetime, ( ta_sma(close,21) - 2*SQRT(ta_sum(POW(close - ta_sma(close, 21), 2), 21)/21) ) AS `BOL_DOWN`
-FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
 
 
 
