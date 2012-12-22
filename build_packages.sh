@@ -3,7 +3,7 @@
 set -e
 
 INSTALLDIR=/tmp/libmysqludf_build_install
-RELEASE=2
+RELEASE=3
 
 rm -fR $INSTALLDIR
 mkdir -p $INSTALLDIR/usr/share/libmysqludf_ta
