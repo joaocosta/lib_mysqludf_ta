@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/joaocosta/lib_mysqludf_ta.png?branch=master)](https://travis-ci.org/joaocosta/lib_mysqludf_ta)
+
 DESCRIPTION:
 
 Implements technical analysis functions as MySQL UDFs.
