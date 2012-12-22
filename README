@@ -47,7 +47,6 @@ Linux:
 
 ./configure
 make
-make check  #This assumes a local mysql instance is available, username root with no password
 sudo make install
 
 If this fails, try running autogen.sh and repeat the "configure && make && make install" sequence
@@ -84,6 +83,10 @@ CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.so';
 CREATE FUNCTION ta_max RETURNS REAL SONAME 'lib_mysqludf_ta.so';
 CREATE FUNCTION ta_min RETURNS REAL SONAME 'lib_mysqludf_ta.so';
 CREATE FUNCTION ta_previous RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+
+Test your installation
+
+make check  #This assumes a local mysql instance is available, username root with no password
 
 
 FUNCTIONS:
