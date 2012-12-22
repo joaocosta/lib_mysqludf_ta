@@ -47,6 +47,7 @@ Linux:
 
 ./configure
 make
+make check  #This assumes a local mysql instance is available, username root with no password
 sudo make install
 
 If this fails, try running autogen.sh and repeat the "configure && make && make install" sequence
@@ -295,9 +296,10 @@ SELECT ta_ema(CAST(integer_data_field AS DECIMAL(65), 14) FROM TABLE;
 
 CREATING NEW FUNCTIONS:
 
-The easiest way might be to copy one of the existing .c files to a different name and modify its implementation.
-
-Edit Makefile.am and add the new source file.  To generate a new configure script, run the provided autogen.sh ( this depends on automake, autoconf and libtool being installed ).
+The easiest way would be to copy one of the existing .c files to a different name and modify its implementation.
+Edit test/03_test.sh and add a suitable test to validate results of the new function using the provided dataset.
+Edit Makefile.am and add the new source file.
+To generate a new configure script, run the provided autogen.sh ( this depends on automake, autoconf and libtool being installed ).
 
 
 

@@ -1,0 +1,5 @@
+Results of libmysqludf_ta have been validated against results produced by stockcharts.com.
+
+As far as I can tell, libmysqludf_ta produces correct results for the functions it implements.
+
+Note that for the RSI function, finance.google.com and finance.yahoo.com produce different values than stockcharts.com.  I think google's and yahoo's results are wrong because their formula doesn't use the smoothing technique described at http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
