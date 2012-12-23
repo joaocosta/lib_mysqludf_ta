@@ -304,7 +304,7 @@ SELECT ta_ema(CAST(integer_data_field AS DECIMAL(65), 14) FROM TABLE;
 
 * The easiest way would be to copy one of the existing .c files to a different name and modify its implementation.
 * Edit test/03_test.sh and add a suitable test to validate results of the new function using the provided dataset.
-* Edit src/db_* and add the new function there
+* Add a setup script for your new function under the setup directory. These are used by automated deployment mechanisms.
 * Edit Makefile.am and add the new source file.
 * To generate a new configure script, run the provided autogen.sh ( this depends on automake, autoconf and libtool being installed ).
 

@@ -1,0 +1,4 @@
+0.01-3 2012-12-22 16:22:32 UTC
+        New function ta_stddevp
+        Unit tests
+        Splitted install/uninstall script into multiple files to better enable automated upgrades
