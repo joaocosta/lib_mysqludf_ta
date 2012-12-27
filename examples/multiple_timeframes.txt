@@ -1,3 +1,5 @@
+daily(close > ema(close,200)) and hourly(close < ema(close,200))
+-----------------------------------------------------------------------------------
 SELECT T2.datetime, T2.V1T, T2.V2T
 FROM (
 SELECT datetime, V1T, V2T FROM (
@@ -26,3 +28,74 @@ FROM (
 ) AS IT2
 WHERE V1T < V2T
 ) AS T2 ON T1.datetime = T2.TF1;
+-----------------------------------------------------------------------------------
+
+
+daily(close > ema(close,200)) or hourly(close < ema(close,200))
+-----------------------------------------------------------------------------------
+SELECT T2.datetime, T2.V1T, T2.V2T
+FROM (
+SELECT datetime, V1T, V2T FROM (
+SELECT *, close AS V1T, ta_ema(close, 200) AS V2T
+FROM (
+    SELECT *
+    FROM EURUSD_86400
+    WHERE datetime > '2007-01-01 00:00:00'
+    ORDER BY datetime
+) AS IT
+) AS IT2
+WHERE V1T > V2T
+) AS T1
+
+UNION ALL
+
+(
+SELECT datetime, date_format(datetime, '%Y-%m-%d 00:00:00') AS TF1, V1T, V2T FROM (
+SELECT *, close AS V1T, ta_ema(close, 200) AS V2T
+FROM (
+    SELECT *
+    FROM EURUSD_3600
+    WHERE datetime > '2007-01-01 00:00:00'
+    ORDER BY datetime
+) AS IT
+) AS IT2
+WHERE V1T < V2T
+) AS T2
+-----------------------------------------------------------------------------------
+
+
+( daily(close > ema(close,200)) and hourly(close < ema(close,200)) ) or ( daily(close < ema(close,200)) and hourly(close > ema(close,200)) )
+-----------------------------------------------------------------------------------
+SELECT T2.datetime, T2.V1T, T2.V2T
+FROM (
+SELECT datetime, V1T, V2T FROM (
+SELECT *, close AS V1T, ta_ema(close, 200) AS V2T
+FROM (
+    SELECT *
+    FROM EURUSD_86400
+    WHERE datetime > '2007-01-01 00:00:00'
+    ORDER BY datetime
+) AS IT
+) AS IT2
+WHERE V1T > V2T
+) AS T1
+
+INNER JOIN
+
+(
+SELECT datetime, date_format(datetime, '%Y-%m-%d 00:00:00') AS TF1, V1T, V2T FROM (
+SELECT *, close AS V1T, ta_ema(close, 200) AS V2T
+FROM (
+    SELECT *
+    FROM EURUSD_3600
+    WHERE datetime > '2007-01-01 00:00:00'
+    ORDER BY datetime
+) AS IT
+) AS IT2
+WHERE V1T < V2T
+) AS T2 ON T1.datetime = T2.TF1;
+
+
+
+
+-----------------------------------------------------------------------------------
