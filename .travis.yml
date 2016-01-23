@@ -1,7 +1,7 @@
 services: mysql
 sudo: false
 language: c
-script: ./autogen.sh && ./configure && make && sudo make install
+script: ./autogen.sh && ./configure && make && make install
 after_script:
   - cat setup/*up | mysql -uroot
   - make check
