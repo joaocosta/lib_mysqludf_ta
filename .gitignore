@@ -1,1 +1,14 @@
 .project
+.deps/
+.libs/
+Makefile
+autom4te.cache/
+config.h
+config.log
+config.status
+lib_mysqludf_ta.la
+lib_mysqludf_ta_la-ta_*.lo
+lib_mysqludf_ta_la-ta_*.o
+libtool
+stamp-h1
+
