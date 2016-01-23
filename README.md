@@ -87,6 +87,10 @@ From the MySQL prompt:
     CREATE FUNCTION ta_stddevp RETURNS REAL SONAME 'lib_mysqludf_ta.so';
     CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.so';
 
+Or simply:
+
+    cat setup/*up | mysql -uroot
+
 # Test your installation
 
     make check  #This assumes a local mysql instance is available, username root with no password
