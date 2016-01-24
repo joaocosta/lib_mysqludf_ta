@@ -41,6 +41,7 @@ rm -f *.o
 
 %build
 %configure
+
 #Runs at build time
 make %{?_smp_mflags}
 
@@ -64,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/mysql/plugin/lib_mysqludf_ta.so
 %{_libdir}/mysql/plugin/lib_mysqludf_ta.so.0
 %{_libdir}/mysql/plugin/lib_mysqludf_ta.so.0.0.0
-#%{_libexecdir}/%{name}/
+%{_datadir}/%{name}/
 
 
 
