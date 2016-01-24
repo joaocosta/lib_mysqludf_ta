@@ -40,6 +40,7 @@ rm -f *.o
 
 
 %build
+%configure
 #Runs at build time
 make %{?_smp_mflags}
 
