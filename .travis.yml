@@ -1,7 +1,4 @@
 services: mysql
 sudo: required
 language: c
-script: ./autogen.sh && ./configure && make && sudo make install
-after_script:
-  - cat setup/*_up.sql | mysql -uroot
-  - make check
+script: ./autogen.sh && ./configure && make && sudo make install && cat setup/*_up.sql | mysql -uroot && make check
