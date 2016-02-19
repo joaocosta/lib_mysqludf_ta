@@ -89,7 +89,7 @@ From the MySQL prompt:
 
 Or simply:
 
-    cat setup/*up | mysql -uroot
+    cat setup/*_up.sql | mysql -uroot
 
 # Test your installation
 

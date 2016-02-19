@@ -1307,10 +1307,10 @@ mrproper:
 	rm -rf config.guess config.h.* config.status configure missing config.sub ltmain.sh depcomp aclocal.m4 install.sh config.log compile Makefile.in doc/html *.loT mkinstalldirs install-sh *~
 
 installdb: 
-	cat setup/*up | $(MYSQL)
+	cat setup/*_up* | $(MYSQL)
 
 uninstalldb: 
-	cat setup/*down | $(MYSQL)
+	cat setup/*_down* | $(MYSQL)
 
 dist-hook:
 	find $(distdir) -name .svn -o -name .DS_Store -o -name .cdtproject -o -name .project -o -name .settings -o *~ | xargs --no-run-if-empty rm -rf
