@@ -3,5 +3,5 @@ sudo: required
 language: c
 script: ./autogen.sh && ./configure && make && sudo make install
 after_script:
-  - cat setup/*up | mysql -uroot
+  - cat setup/*_up.sql | mysql -uroot
   - make check
