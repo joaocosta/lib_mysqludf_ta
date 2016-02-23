@@ -27,7 +27,18 @@ Other indicators which can be derived from those functions include:
 Source repository at:
 http://github.com/joaocosta/lib_mysqludf_ta
 
+# DOCKER IMAGES
 
+    # Create a new empty database
+    docker run --name fxdata -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=fxdata -d mysqludf/ta
+
+    # Alternatively, mount an existing database outside the container
+    docker run -v /my/databasedir:/var/lib/mysql --name fxdata -d mysqludf/ta
+
+    # Connect with mysql client inside a separate container
+    docker run -it --link fxdata:mysql --rm mariadb sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"'
+
+See more examples of how to use the mariadb image at https://hub.docker.com/_/mariadb/
 
 # COMPILING:
 
