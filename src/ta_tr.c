@@ -1,5 +1,5 @@
 /*
-   Copyright (c) <2010> <João Costa>
+   Copyright (c) <2010> <JoÃ£o Costa>
    Dual licensed under the MIT and GPL licenses.
  */
 #include <stdlib.h>
@@ -91,8 +91,8 @@ DLLEXP double ta_tr(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
 //Maybe this algorithm could be optimized
 //to use less operations (or perhaps the compiler can figure it out)
 		double r1 = *high - *low;
-		double r2 = abs(*high - data->previous_close);
-		double r3 = abs(*low - data->previous_close);
+		double r2 = fabs(*high - data->previous_close);
+		double r3 = fabs(*low - data->previous_close);
 		double r4 = (r1 > r2 ? r1 : r2);
 
 		data->previous_close = *close;
