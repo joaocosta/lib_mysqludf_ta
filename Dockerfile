@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
         gcc \
         libmariadbclient-dev \
         libtool \
-        make
+        make \
+        && rm -rf /var/lib/apt/lists/*
 
 ADD . /root/libmysqludfta
 
