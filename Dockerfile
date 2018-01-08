@@ -1,4 +1,4 @@
-FROM mariadb
+FROM mariadb:10.1
 MAINTAINER Joao Costa <joaocosta@zonalivre.org>
 
 RUN apt-get update && apt-get install -y \
