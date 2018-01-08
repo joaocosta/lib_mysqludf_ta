@@ -1,0 +1,46 @@
+The following query causes the mariadb server to crash from 10.2+.  It works on 10.1.
+
+SELECT SIGNALS_TF_900.datetime FROM
+(
+SELECT datetime, CAST(CONCAT(year(datetime), '-', month(datetime), '-', day(datetime), ' ',  floor(hour(datetime) / 4) * 4, ':00:00') AS DATETIME)
+ AS COMMON_TIMEFRAME_PATTERN FROM (
+SELECT datetime FROM (
+SELECT *,ta_previous(round(ta_rsi(close,14), 2),2) AS T2, ta_previous(round(ta_rsi(close,14), 2),1) AS T0, ta_previous(round(ta_rsi(close,14), 2),
+3) AS T3, 30 AS T1
+FROM (
+    SELECT * FROM USDCAD_14400
+     WHERE datetime <= '9999-12-31 23:59:59' AND dayofweek(datetime) <> 1
+    ORDER BY datetime DESC
+    LIMIT 10000000000
+) AS T_INNER
+ORDER BY datetime ASC
+) AS T_OUTER
+WHERE (T0 < T1) and (T2 < T1) and (T3 < T1) AND datetime <='9999-12-31 23:59:59'
+) AS DT
+ORDER BY datetime ASC
+) AS SIGNALS_TF_14400
+
+
+INNER JOIN
+
+(
+SELECT datetime, CAST(CONCAT(year(datetime), '-', month(datetime), '-', day(datetime), ' ',  floor(hour(datetime) / 4) * 4, ':00:00') AS DATETIME) AS COMMON_TIMEFRAME_PATTERN FROM (
+SELECT datetime FROM (
+SELECT *,round(ta_rsi(close,14), 2) AS T4, 65 AS T5
+FROM (
+    SELECT * FROM USDCAD_900
+     WHERE datetime <= '9999-12-31 23:59:59' AND dayofweek(datetime) <> 1
+    ORDER BY datetime DESC
+    LIMIT 10000000000
+) AS T_INNER
+ORDER BY datetime ASC
+) AS T_OUTER
+WHERE (T4 > T5) AND datetime <='9999-12-31 23:59:59'
+) AS DT
+ORDER BY datetime ASC
+) AS SIGNALS_TF_900
+
+ ON SIGNALS_TF_14400.COMMON_TIMEFRAME_PATTERN = SIGNALS_TF_900.COMMON_TIMEFRAME_PATTERN
+WHERE SIGNALS_TF_900.datetime >= '2017-12-19 16:07:56'
+ORDER BY datetime DESC
+limit 5

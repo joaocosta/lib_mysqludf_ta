@@ -1,3 +1,4 @@
+# certain queries crash the mariadb server starting with 10.2+.  See examples/mariadb10.2.crash .
 FROM mariadb:10.1
 MAINTAINER Joao Costa <joaocosta@zonalivre.org>
 
