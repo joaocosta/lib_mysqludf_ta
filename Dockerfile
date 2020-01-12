@@ -1,5 +1,5 @@
 # certain queries crash the mariadb server starting with 10.2+.  See examples/mariadb10.2.crash .
-FROM mariadb:10.2
+FROM mariadb:10.3
 MAINTAINER Joao Costa <joaocosta@zonalivre.org>
 
 RUN apt-get update && apt-get install -y \
