@@ -1,0 +1,29 @@
+## Docker
+
+time docker build --tag db_test .
+
+docker run  --rm \
+            --name db_test \
+            -v /root/src:/root/src \
+            -e "MYSQL_ROOT_PASSWORD=root" \
+            -e "MYSQL_DATABASE=test" \
+            -e "MYSQL_USER=fx" \
+            -e "MYSQL_PASSWORD=fx" \
+            db_test
+
+docker exec -ti db_test bash
+mysql -uroot -proot test < sampledb.sql
+mysql -uroot -proot test
+
+SELECT datetime, close, ta_sample(close,14) FROM EURUSD_86400 LIMIT 10;
+
+# Sample query to test changes to mysqludf_ta to allow calculating running rsi over multiple timeframes
+SELECT
+  datetime,
+  WEEK(datetime),
+  CAST(date_format(date_sub(datetime, interval weekday(datetime)+1 DAY), '%Y-%m-%d 00:00:00') AS DATETIME) AS COMMON_DATETIME,
+  open, close,
+  FIRST_VALUE(close) OVER (PARTITION BY COMMON_DATETIME ORDER BY datetime) as open_604800,
+  LAST_VALUE(close) OVER (PARTITION BY COMMON_DATETIME ORDER BY datetime) as close_604800,
+  round(ta_sample(close, 14),5) AS RSI14
+FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 100;
