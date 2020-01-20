@@ -142,6 +142,7 @@ am_lib_mysqludf_ta_la_OBJECTS = lib_mysqludf_ta_la-ta_ema.lo \
 	lib_mysqludf_ta_la-ta_max.lo lib_mysqludf_ta_la-ta_min.lo \
 	lib_mysqludf_ta_la-ta_previous.lo lib_mysqludf_ta_la-ta_rsi.lo \
 	lib_mysqludf_ta_la-ta_sample.lo lib_mysqludf_ta_la-ta_sma.lo \
+	lib_mysqludf_ta_la-ta_sma_win.lo \
 	lib_mysqludf_ta_la-ta_stddevp.lo lib_mysqludf_ta_la-ta_sum.lo \
 	lib_mysqludf_ta_la-ta_tr.lo
 lib_mysqludf_ta_la_OBJECTS = $(am_lib_mysqludf_ta_la_OBJECTS)
@@ -543,6 +544,7 @@ lib_mysqludf_ta_la_SOURCES = src/ta_libmysqludf_ta.h \
 				src/ta_rsi.c \
 				src/ta_sample.c \
 				src/ta_sma.c \
+				src/ta_sma_win.c \
 				src/ta_stddevp.c \
 				src/ta_sum.c \
 				src/ta_tr.c
@@ -657,6 +659,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_rsi.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_sample.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_sma.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_sma_win.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_stddevp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_sum.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib_mysqludf_ta_la-ta_tr.Plo@am__quote@
@@ -730,6 +733,13 @@ lib_mysqludf_ta_la-ta_sma.lo: src/ta_sma.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/ta_sma.c' object='lib_mysqludf_ta_la-ta_sma.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_mysqludf_ta_la_CFLAGS) $(CFLAGS) -c -o lib_mysqludf_ta_la-ta_sma.lo `test -f 'src/ta_sma.c' || echo '$(srcdir)/'`src/ta_sma.c
+
+lib_mysqludf_ta_la-ta_sma_win.lo: src/ta_sma_win.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_mysqludf_ta_la_CFLAGS) $(CFLAGS) -MT lib_mysqludf_ta_la-ta_sma_win.lo -MD -MP -MF $(DEPDIR)/lib_mysqludf_ta_la-ta_sma_win.Tpo -c -o lib_mysqludf_ta_la-ta_sma_win.lo `test -f 'src/ta_sma_win.c' || echo '$(srcdir)/'`src/ta_sma_win.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/lib_mysqludf_ta_la-ta_sma_win.Tpo $(DEPDIR)/lib_mysqludf_ta_la-ta_sma_win.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/ta_sma_win.c' object='lib_mysqludf_ta_la-ta_sma_win.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_mysqludf_ta_la_CFLAGS) $(CFLAGS) -c -o lib_mysqludf_ta_la-ta_sma_win.lo `test -f 'src/ta_sma_win.c' || echo '$(srcdir)/'`src/ta_sma_win.c
 
 lib_mysqludf_ta_la-ta_stddevp.lo: src/ta_stddevp.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_mysqludf_ta_la_CFLAGS) $(CFLAGS) -MT lib_mysqludf_ta_la-ta_stddevp.lo -MD -MP -MF $(DEPDIR)/lib_mysqludf_ta_la-ta_stddevp.Tpo -c -o lib_mysqludf_ta_la-ta_stddevp.lo `test -f 'src/ta_stddevp.c' || echo '$(srcdir)/'`src/ta_stddevp.c
