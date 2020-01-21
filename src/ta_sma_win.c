@@ -13,7 +13,7 @@
 #include "ta_libmysqludf_ta.h"
 
 /*
-   CREATE FUNCTION ta_sma_win RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+   CREATE AGGREGATE FUNCTION ta_sma_win RETURNS REAL SONAME 'lib_mysqludf_ta.so';
    DROP FUNCTION sma_win;
  */
 
