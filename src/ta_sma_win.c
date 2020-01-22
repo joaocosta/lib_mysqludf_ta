@@ -1,5 +1,5 @@
 /*
-   Copyright (c) <2010> <João Costa>
+   Copyright (c) <2020> <Joao Costa>
    Dual licensed under the MIT and GPL licenses.
  */
 #include <stdlib.h>
