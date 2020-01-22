@@ -1,0 +1,1 @@
+CREATE AGGREGATE FUNCTION ta_sma_win RETURNS REAL SONAME 'lib_mysqludf_ta.so';

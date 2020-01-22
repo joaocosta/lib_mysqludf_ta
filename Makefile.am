@@ -7,7 +7,9 @@ lib_mysqludf_ta_la_SOURCES = src/ta_libmysqludf_ta.h \
 				src/ta_min.c \
 				src/ta_previous.c \
 				src/ta_rsi.c \
+				src/ta_rsi_win.c \
 				src/ta_sma.c \
+				src/ta_sma_win.c \
 				src/ta_stddevp.c \
 				src/ta_sum.c \
 				src/ta_tr.c
