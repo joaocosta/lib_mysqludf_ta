@@ -9,6 +9,7 @@ docker run  --rm \
             -e "MYSQL_DATABASE=test" \
             -e "MYSQL_USER=fx" \
             -e "MYSQL_PASSWORD=fx" \
+            -e MYSQL_INITDB_SKIP_TZINFO=1 \
             db_test
 
 docker exec -ti db_test bash
