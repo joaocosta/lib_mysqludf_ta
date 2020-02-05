@@ -22,8 +22,12 @@ typedef struct ta_rsi_win_data_ {
 	int periods;
 	double avg_gain;
 	double avg_loss;
+	double last_gain;
+	double last_loss;
 	double previous_close;
 	double current_close;
+	double previous_avggain;
+	double previous_avgloss;
 	int next_gain_index;
 	int next_loss_index;
 	double values[];
@@ -71,7 +75,7 @@ DLLEXP my_bool ta_rsi_win_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 
 	initid->ptr = (char*)data;
 /*
-    fprintf(stderr, "Init ta_rsi_win %i done\n", (*(int *) args->args[1]));
+    fprintf(stderr, "Init %i done\n", (*(int *) args->args[1]));
     fflush(stderr);
  */
 	return 0;
@@ -100,6 +104,7 @@ DLLEXP double ta_rsi_win(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *
         if (data->avg_loss == 0) {
             return 100;
         }
+        //fprintf(stderr, "rsi=%f\n", 100 - 100 / ( 1 + (data->avg_gain / data->avg_loss)));
         return 100 - 100 / ( 1 + (data->avg_gain / data->avg_loss));
     } else {
         *is_null = 1;
@@ -111,6 +116,7 @@ void ta_rsi_win_clear(UDF_INIT *initid, char *is_null, char *error) {
 
 
     ta_rsi_win_data *data = (ta_rsi_win_data *)initid->ptr;
+    double sum_of_gains = 0.0, sum_of_losses = 0.0;
 
     data->previous_close = data->current_close;
     data->current = data->current + 1;
@@ -123,8 +129,25 @@ void ta_rsi_win_clear(UDF_INIT *initid, char *is_null, char *error) {
         data->next_loss_index = data->periods;
     }
 
-//    fprintf(stderr, "\n\nclear\nprevious_close=%f\ncurrent=%i\ngain index = %i\nloss index = %i\n\n", data->previous_close, data->current, data->next_gain_index, data->next_loss_index);
-//    fflush(stderr);
+    //fprintf(stderr, "clear\tcurr_c=%f\tprev_c=%f\n", data->current_close, data->previous_close);
+
+    if (data->current == data->periods + 1) {
+            for (int i = 0; i < data->periods; i++) {
+                sum_of_gains += data->values[i];
+            }
+            for (int i = data->periods; i < data->periods * 2; i++) {
+                sum_of_losses += data->values[i];
+            }
+            data->avg_gain = sum_of_gains / data->periods;
+            data->avg_loss = sum_of_losses / data->periods;
+            //fprintf(stderr, "clear\tavg_g=%f\tavg_l=%f\n", data->avg_gain, data->avg_loss);
+    }
+
+    data->last_gain = data->avg_gain;
+    data->last_loss = data->avg_loss;
+    //fprintf(stderr, "clear\tlast_g=%f\tlast_l=%f\n", data->last_gain, data->last_loss);
+
+    //fflush(stderr);
 }
 
 void ta_rsi_win_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error) {
@@ -133,12 +156,9 @@ void ta_rsi_win_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
     int *periods = (int *)args->args[1];
     double *value = (double*)args->args[0];
     double gain = 0.0, loss = 0.0;
-    double sum_of_gains = 0.0, sum_of_losses = 0.0;
     double change;
 
     data->current_close = *value;
-
-//    fprintf(stderr, "current=%i\ncurrent_close=%f\n\n", data->current, data->current_close);
 
     if (data->current > 0) {
         change = data->current_close - data->previous_close;
@@ -148,49 +168,38 @@ void ta_rsi_win_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
             loss = data->previous_close - data->current_close;
         }
 
-//        fprintf(stderr, "change = %f\ngain = %f\nloss = %f\n", change, gain, loss);
-
         data->values[data->next_gain_index] = gain;
         data->values[data->next_loss_index] = loss;
-//        for (int i=0; i<*periods * 2; i++) {
-//            fprintf(stderr, "[%s] values[%i] = %f\n", (i < *periods ? "gain" : "loss"), i, data->values[i]);
-//        }
 
-        if (data->current >= *periods) {
-            for (int i = 0; i < *periods; i++) {
-                sum_of_gains += data->values[i];
-            }
-            for (int i = *periods; i < *periods * 2; i++) {
-                sum_of_losses += data->values[i];
-            }
-            data->avg_gain = sum_of_gains / *periods;
-            data->avg_loss = sum_of_losses / *periods;
-//            fprintf(stderr, "avg_gain = %f\navg_loss = %f\n", data->avg_gain, data->avg_loss);
+        //fprintf(stderr, "add\tlast_g=%f\tlast_l=%f\n", data->last_gain, data->last_loss);
+        if (data->current >= *periods + 1) {
+            data->avg_gain = (data->last_gain * (*periods - 1) + gain ) / *periods;
+            data->avg_loss = (data->last_loss * (*periods - 1) + loss ) / *periods;
+            //fprintf(stderr, "add\tcurr_c=%f\n", data->current_close);
+            //fprintf(stderr, "add\tavg_g=%f\tavg_l=%f\n", data->avg_gain, data->avg_loss);
         } else {
-//            fprintf(stderr, "avg_gain = null\navg_loss = null\n");
             *is_null = 1;
         }
     } else {
-//        fprintf(stderr, "change = null\ngain = null\nloss = null\n");
         *is_null = 1;
     }
 
-//    fflush(stderr);
+    //fflush(stderr);
 }
 
 void ta_rsi_win_reset(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error) {
 
-  fprintf(stderr, "reset ta_rsi_win\n");
+  //fprintf(stderr, "reset\n");
   double *value = (double*)args->args[0];
 
-  fprintf(stderr, "reset ta_rsi_win %f\n", *value);
-  fflush(stderr);
+  //fprintf(stderr, "reset %f\n", *value);
+  //fflush(stderr);
 
 }
 
 void ta_rsi_win_remove(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error) {
 
-  fprintf(stderr, "remove ta_rsi_win\n");
-  fflush(stderr);
+  //fprintf(stderr, "remove\n");
+  //fflush(stderr);
 
 }
