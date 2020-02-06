@@ -26,8 +26,6 @@ typedef struct ta_rsi_win_data_ {
 	double last_loss;
 	double previous_close;
 	double current_close;
-	double previous_avggain;
-	double previous_avgloss;
 	int next_gain_index;
 	int next_loss_index;
 	double values[];
@@ -100,7 +98,7 @@ DLLEXP double ta_rsi_win(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *
 		return 0.0;
 	}
 
-    if (data->current >= *periods) {
+    if (data->current >= *periods + 1) {
         if (data->avg_loss == 0) {
             return 100;
         }
@@ -121,17 +119,18 @@ void ta_rsi_win_clear(UDF_INIT *initid, char *is_null, char *error) {
     data->previous_close = data->current_close;
     data->current = data->current + 1;
 
-    if (data->next_gain_index + 1 < data->periods ) {
-        data->next_gain_index = data->next_gain_index + 1;
-        data->next_loss_index = data->next_loss_index + 1;
-    } else {
-        data->next_gain_index = 0;
-        data->next_loss_index = data->periods;
-    }
+    //fprintf(stderr, "clear\tprev_c=%f\n", data->previous_close);
 
-    //fprintf(stderr, "clear\tcurr_c=%f\tprev_c=%f\n", data->current_close, data->previous_close);
-
-    if (data->current == data->periods + 1) {
+    if (data->current < data->periods + 1) {
+        if (data->next_gain_index + 1 < data->periods ) {
+            data->next_gain_index = data->next_gain_index + 1;
+            data->next_loss_index = data->next_loss_index + 1;
+        } else {
+            data->next_gain_index = 0;
+            data->next_loss_index = data->periods;
+        }
+        return;
+    } else if (data->current == data->periods + 1) {
             for (int i = 0; i < data->periods; i++) {
                 sum_of_gains += data->values[i];
             }
@@ -172,7 +171,7 @@ void ta_rsi_win_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
         data->values[data->next_loss_index] = loss;
 
         //fprintf(stderr, "add\tlast_g=%f\tlast_l=%f\n", data->last_gain, data->last_loss);
-        if (data->current >= *periods + 1) {
+        if (data->current >= *periods) {
             data->avg_gain = (data->last_gain * (*periods - 1) + gain ) / *periods;
             data->avg_loss = (data->last_loss * (*periods - 1) + loss ) / *periods;
             //fprintf(stderr, "add\tcurr_c=%f\n", data->current_close);
@@ -189,7 +188,6 @@ void ta_rsi_win_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
 
 void ta_rsi_win_reset(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error) {
 
-  //fprintf(stderr, "reset\n");
   double *value = (double*)args->args[0];
 
   //fprintf(stderr, "reset %f\n", *value);
