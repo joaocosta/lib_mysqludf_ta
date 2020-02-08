@@ -1,5 +1,5 @@
 /*
-   Copyright (c) <2010> <João Costa>
+   Copyright (c) <2020> <Joao Costa>
    Dual licensed under the MIT and GPL licenses.
  */
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 
 /*
    CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.so';
-   DROP FUNCTION ta_tr;
+   DROP FUNCTION IF EXISTS ta_tr;
  */
 
 typedef struct ta_tr_data_ {
@@ -87,18 +87,11 @@ DLLEXP double ta_tr(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
 		return 0.0;
 	}
 
-	if (data->init) {
-//Maybe this algorithm could be optimized
-//to use less operations (or perhaps the compiler can figure it out)
-		double r1 = *high - *low;
-		double r2 = fabs(*high - data->previous_close);
-		double r3 = fabs(*low - data->previous_close);
-		double r4 = (r1 > r2 ? r1 : r2);
+	data->previous_close = *close;
 
-		data->previous_close = *close;
-		return r4 > r3 ? r4 : r3;
+	if (data->init) {
+        return (*high > data->previous_close ? *high : data->previous_close) - (*low < data->previous_close ? *low : data->previous_close);
 	} else {
-		data->previous_close = *close;
 		data->init = 1;
 		*is_null = 1;
 		return 0.0;
