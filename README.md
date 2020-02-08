@@ -132,7 +132,7 @@ To try the examples below import the provided sampledb.sql into a MySQL database
 To calculate a 50 period EMA of closing prices:
 
     SELECT datetime, ta_ema(close, 50)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -150,7 +150,7 @@ To calculate a 50 period EMA of closing prices:
 To calculate a 50 period SMA of closing prices:
 
     SELECT datetime, ta_sma(close, 50)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -189,12 +189,12 @@ To calculate a 50 period SMA of closing prices:
 To calculate a 14 period RSI of closing prices:
 
     SELECT datetime, ta_rsi(close, 14)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 To calculate a 10 period ta_ema of ta_rsi(14):
 
     SELECT datetime, ta_ema(ta_rsi(close, 14), 10)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -215,12 +215,12 @@ This function is useful for calculating indicators such as Bollinger Bands.
 To calculate the upper limit Bollinger Band of 2 standard deviations over a 21 period sma:
 
     SELECT datetime, ( ta_sma(close,21) + 2*ta_stddevp(close,21) ) AS `BOL_UP`
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 To calculate the lower limit Bollinger Band of 2 standard deviations over a 21 period sma:
 
     SELECT datetime, ( ta_sma(close,21) - 2*ta_stddevp(close,21) ) AS `BOL_DOWN`
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -238,7 +238,7 @@ To calculate the lower limit Bollinger Band of 2 standard deviations over a 21 p
 To calculate a 50 running sum of closing prices:
 
     SELECT datetime, ta_sum(close, 50)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 
 ------------------------------------------------------------------------------------------------------
@@ -259,7 +259,7 @@ To calculate a 50 running sum of closing prices:
 To calculate True Range
 
     SELECT datetime, ta_tr(high, low, close)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -277,7 +277,7 @@ To calculate True Range
 ### Example:
 See if today's close is greater than yesterday's close
     SELECT datetime, close > ta_previous(close,1)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -295,7 +295,7 @@ See if today's close is greater than yesterday's close
 ### Example:
 To return the maximum close over the last 50 periods:
     SELECT datetime, ta_max(close, 50)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -313,7 +313,7 @@ To return the maximum close over the last 50 periods:
 ### Example:
 To return the minimum close over the last 50 periods:
     SELECT datetime, ta_min(close, 50)
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
@@ -322,12 +322,12 @@ To return the minimum close over the last 50 periods:
 MACD is defined as the difference between two emas
 
     SELECT datetime, ta_ema(close,12) - ta_ema(close,26) AS `MACD`
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 The MACD signal line is defined as an EMA of MACD
 
     SELECT datetime, ta_ema(ta_ema(close,12) - ta_ema(close,26), 9) AS `MACD_SIGNAL`
-    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 
 ------------------------------------------------------------------------------------------------------
