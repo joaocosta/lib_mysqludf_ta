@@ -188,7 +188,7 @@ void ta_rsi_win_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error
 
 void ta_rsi_win_reset(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error) {
 
-  double *value = (double*)args->args[0];
+  //double *value = (double*)args->args[0];
 
   //fprintf(stderr, "reset %f\n", *value);
   //fflush(stderr);
