@@ -1,1 +1,1 @@
-DROP FUNCTION ta_sum;
+DROP FUNCTION IF EXISTS ta_sum;

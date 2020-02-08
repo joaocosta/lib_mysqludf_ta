@@ -1,1 +1,1 @@
-DROP FUNCTION ta_rsi_win;
+DROP FUNCTION IF EXISTS ta_rsi_win;

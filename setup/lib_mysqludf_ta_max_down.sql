@@ -1,1 +1,1 @@
-DROP FUNCTION ta_max;
+DROP FUNCTION IF EXISTS ta_max;

@@ -1,1 +1,1 @@
-DROP FUNCTION ta_sm_wina;
+DROP FUNCTION IF EXISTS ta_sm_win;

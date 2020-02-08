@@ -1,1 +1,1 @@
-DROP FUNCTION ta_stddevp;
+DROP FUNCTION IF EXISTS ta_stddevp;

@@ -1,1 +1,1 @@
-DROP FUNCTION ta_previous;
+DROP FUNCTION IF EXISTS ta_previous;
