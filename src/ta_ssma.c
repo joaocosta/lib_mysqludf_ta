@@ -1,5 +1,5 @@
 /*
-   Copyright (c) <2010> <João Costa>
+   Copyright (c) <2020> <Joao Costa>
    Dual licensed under the MIT and GPL licenses.
  */
 #include <stdlib.h>
@@ -20,10 +20,8 @@ extern int getNextSlot(int, int );
  */
 
 typedef struct ta_ssma_data_ {
-	double sum;
 	int current;
 	double last_value;
-	int next_slot;
 	double values[];
 } ta_ssma_data;
 
@@ -55,9 +53,7 @@ DLLEXP my_bool ta_ssma_init(UDF_INIT *initid, UDF_ARGS *args, char *message)
 		return 1;
 	}
 
-	data->sum = 0;
 	data->current = 0;
-	data->next_slot = 0;
 
 	initid->ptr = (char*)data;
 /*
@@ -76,6 +72,8 @@ DLLEXP double ta_ssma(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *err
 {
 	ta_ssma_data *data = (ta_ssma_data *)initid->ptr;
 	int *periods = (int *)args->args[1];
+	int periods_minus_one = *periods - 1;
+	double *current_value = (double*)args->args[0];
 
 	if (args->args[0] == NULL) {
 		if (data->current > 0) {
@@ -86,19 +84,20 @@ DLLEXP double ta_ssma(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *err
 		return 0.0;
 	}
 
-	data->current = data->current + 1;
-	data->values[data->next_slot] = *((double*)args->args[0]);
-	data->next_slot = getNextSlot(data->next_slot, *periods);
-
-	if (*periods > data->current) {
-		*is_null = 1;
-		return 0.0;
-	} else {
+    if (periods_minus_one < data->current) {
+	    data->last_value = ((data->last_value * (periods_minus_one)) + *current_value) / *periods;
+	} else if (periods_minus_one == data->current) {
 		double sum = 0.0;
 		int i = 0;
+	    data->values[data->current++] = *current_value;
 		for (i = 0; i < *periods; i++)
 			sum += data->values[i];
 
-		return sum / *periods;
+		data->last_value = sum / *periods;
+	} else {
+	    data->values[data->current++] = *current_value;
+		*is_null = 1;
+		return 0.0;
 	}
+	return data->last_value;
 }
