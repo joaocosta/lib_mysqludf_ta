@@ -7,6 +7,7 @@ Implements technical analysis functions as MySQL UDFs.
 Currently implemented functions are:
 
     TA_SMA
+    TA_SSMA
     TA_EMA
     TA_RSI
     TA_TR (True Range)
@@ -19,7 +20,7 @@ Other indicators which can be derived from those functions include:
     MACD
     Bollinger Bands
     ADX
-
+    ATR
 
 
 # AVAILABILITY:
@@ -82,6 +83,7 @@ From the MySQL prompt:
     CREATE FUNCTION ta_previous RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
     CREATE FUNCTION ta_rsi RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
     CREATE FUNCTION ta_sma RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
+    CREATE FUNCTION ta_ssma RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
     CREATE FUNCTION ta_stddevp RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
     CREATE FUNCTION ta_sum RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
     CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.dll';
@@ -94,6 +96,7 @@ From the MySQL prompt:
     CREATE FUNCTION ta_previous RETURNS REAL SONAME 'lib_mysqludf_ta.so';
     CREATE FUNCTION ta_rsi RETURNS REAL SONAME 'lib_mysqludf_ta.so';
     CREATE FUNCTION ta_sma RETURNS REAL SONAME 'lib_mysqludf_ta.so';
+    CREATE FUNCTION ta_ssma RETURNS REAL SONAME 'lib_mysqludf_ta.so';
     CREATE FUNCTION ta_sum RETURNS REAL SONAME 'lib_mysqludf_ta.so';
     CREATE FUNCTION ta_stddevp RETURNS REAL SONAME 'lib_mysqludf_ta.so';
     CREATE FUNCTION ta_tr RETURNS REAL SONAME 'lib_mysqludf_ta.so';
@@ -148,6 +151,27 @@ To calculate a 50 period SMA of closing prices:
 
     SELECT datetime, ta_sma(close, 50)
     FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC ) AS T;
+
+------------------------------------------------------------------------------------------------------
+
+## ta_ssma - Smoothed Moving Average ( aka Running average )
+
+A smoothed moving average, as used to calculate ATR and RSI.
+See also: https://en.wikipedia.org/wiki/Moving_average#Modified_moving_average
+
+    ta_ssma(
+        float data, 
+        int period
+    )
+
+* data   - The data to average
+* period - Running period to calculate for
+
+### Example:
+To calculate a 50 period SMA of closing prices:
+
+    SELECT datetime, ta_ssma(ta_tr(high, low, close), 14)
+    FROM ( SELECT * FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 1000000 ) AS T;
 
 ------------------------------------------------------------------------------------------------------
 
