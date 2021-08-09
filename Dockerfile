@@ -14,7 +14,7 @@ ADD . /root/libmysqludfta
 
 WORKDIR /root/libmysqludfta
 
-RUN ./autogen.sh && ./configure --with-mysql=no --libdir=/usr/lib/mysql/plugin/ && make install
+RUN autoreconf -i && ./configure --with-mysql=no --libdir=/usr/lib/mysql/plugin/ && make install
 RUN cp setup/*_up.sql /docker-entrypoint-initdb.d/.
 
 # docker build  --tag mysqludf/latest .

@@ -4,7 +4,7 @@ AC_INIT(lib_mysqludf_ta, 0.1, joaocosta@zonalivre.org)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR(config)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE(subdir-objects)
 
 AC_PROG_CC
 AC_PROG_LIBTOOL
