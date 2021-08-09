@@ -1,11 +1,11 @@
-FROM mariadb:10.4
+FROM mariadb:10.5
 MAINTAINER Joao Costa <joaocosta@zonalivre.org>
 
 RUN apt-get update && apt-get install -y \
         autoconf \
         automake \
         gcc \
-        libmysqlclient-dev \
+        libmariadb-dev \
         libtool \
         make \
         && rm -rf /var/lib/apt/lists/*
@@ -14,7 +14,7 @@ ADD . /root/libmysqludfta
 
 WORKDIR /root/libmysqludfta
 
-RUN ./autogen.sh && ./configure && make install
+RUN ./autogen.sh && ./configure --with-mysql=no --libdir=/usr/lib/mysql/plugin/ && make install
 RUN cp setup/*_up.sql /docker-entrypoint-initdb.d/.
 
 # docker build  --tag mysqludf/latest .
