@@ -14,8 +14,10 @@ ADD . /root/libmysqludfta
 
 WORKDIR /root/libmysqludfta
 
-RUN autoreconf -i && ./configure --with-mysql=no --libdir=/usr/lib/mysql/plugin/ && make install
+RUN autoreconf -i && ./configure --with-mysql=`which mariadb-config` && make install
 RUN cp setup/*_up.sql /docker-entrypoint-initdb.d/.
+
+CMD ["mysqld", "--plugin-dir", "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin"]
 
 # docker build  --tag mysqludf/latest .
 # docker run --name fxdata -v $HOME/mysql:/var/lib/mysql -v $HOME/fx/cfg/mariadb:/etc/mysql/conf.d --hostname=datatest -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=fxdata -d --name fxdatatest lib_mysqludf/tatest
