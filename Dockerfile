@@ -1,12 +1,11 @@
-# certain queries crash the mariadb server starting with 10.2+.  See examples/mariadb10.2.crash .
-FROM mariadb:10.4
+FROM mariadb:10.5
 MAINTAINER Joao Costa <joaocosta@zonalivre.org>
 
 RUN apt-get update && apt-get install -y \
         autoconf \
         automake \
         gcc \
-        libmysqlclient-dev \
+        libmariadb-dev \
         libtool \
         make \
         && rm -rf /var/lib/apt/lists/*
@@ -15,8 +14,10 @@ ADD . /root/libmysqludfta
 
 WORKDIR /root/libmysqludfta
 
-RUN ./autogen.sh && ./configure && make install
+RUN autoreconf -i && ./configure --with-mysql=`which mariadb-config` && make install
 RUN cp setup/*_up.sql /docker-entrypoint-initdb.d/.
+
+CMD ["mysqld", "--plugin-dir", "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin"]
 
 # docker build  --tag mysqludf/latest .
 # docker run --name fxdata -v $HOME/mysql:/var/lib/mysql -v $HOME/fx/cfg/mariadb:/etc/mysql/conf.d --hostname=datatest -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=fxdata -d --name fxdatatest lib_mysqludf/tatest

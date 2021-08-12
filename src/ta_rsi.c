@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <my_global.h>
-#include <my_sys.h>
 #include <mysql.h>
 #include <ctype.h>
 #include "ta_libmysqludf_ta.h"
