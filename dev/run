@@ -1,0 +1,13 @@
+#!/bin/bash
+
+docker rm -f db_test
+docker run  --rm \
+            --name db_test \
+            -v /root/src:/root/src \
+            -e "MYSQL_ROOT_PASSWORD=root" \
+            -e "MYSQL_DATABASE=test" \
+            -e "MYSQL_USER=fx" \
+            -e "MYSQL_PASSWORD=fx" \
+            -e MYSQL_INITDB_SKIP_TZINFO=1 \
+            -d \
+            db_test

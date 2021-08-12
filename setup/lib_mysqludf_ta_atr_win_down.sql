@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS ta_atr_win;
