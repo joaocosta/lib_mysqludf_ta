@@ -1,1 +1,1 @@
-DROP FUNCTION ta_min;
+DROP FUNCTION IF EXISTS ta_min;

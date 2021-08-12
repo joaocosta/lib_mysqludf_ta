@@ -1,1 +1,1 @@
-DROP FUNCTION ta_rsi;
+DROP FUNCTION IF EXISTS ta_rsi;

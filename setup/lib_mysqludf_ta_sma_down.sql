@@ -1,1 +1,1 @@
-DROP FUNCTION ta_sma;
+DROP FUNCTION IF EXISTS ta_sma;

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -euo pipefail
+
+time docker build --tag db_test .
+
+rm -fR newlibs
+mkdir -p newlibs
+ID=$(docker create db_test)
+
+for file in lib_mysqludf_ta.so.0.0.0 lib_mysqludf_ta.so.0 lib_mysqludf_ta.so lib_mysqludf_ta.la; do
+    docker cp $ID:/usr/lib/mysql/plugin/$file newlibs/
+done
+
+docker rm $ID

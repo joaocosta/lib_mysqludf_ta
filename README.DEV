@@ -9,13 +9,14 @@ docker run  --rm \
             -e "MYSQL_DATABASE=test" \
             -e "MYSQL_USER=fx" \
             -e "MYSQL_PASSWORD=fx" \
+            -e MYSQL_INITDB_SKIP_TZINFO=1 \
             db_test
 
 docker exec -ti db_test bash
 mysql -uroot -proot test < sampledb.sql
 mysql -uroot -proot test
 
-SELECT datetime, close, ta_sample(close,14) FROM EURUSD_86400 LIMIT 10;
+SELECT datetime, close, ta_rsi(close,14) FROM EURUSD_86400 LIMIT 10;
 
 # Sample query to test changes to mysqludf_ta to allow calculating running rsi over multiple timeframes
 SELECT
@@ -25,5 +26,5 @@ SELECT
   open, close,
   FIRST_VALUE(close) OVER (PARTITION BY COMMON_DATETIME ORDER BY datetime) as open_604800,
   LAST_VALUE(close) OVER (PARTITION BY COMMON_DATETIME ORDER BY datetime) as close_604800,
-  round(ta_sample(close, 14),5) AS RSI14
+  round(ta_rsi_win(close, 14) OVER (PARTITION BY COMMON_DATETIME ORDER BY datetime) ,5) AS RSI14
 FROM EURUSD_86400 ORDER BY datetime ASC LIMIT 100;

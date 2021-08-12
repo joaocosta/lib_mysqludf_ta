@@ -1,0 +1,8 @@
+docker exec db_test bash -c 'cat /root/libmysqludfta/setup/lib_mysqludf_*_down.sql | mysql -uroot -proot test'
+#docker exec -it db_test 'cat /root/libmysqludfta/setup/lib_mysqludf_ta_rsi_down.sql | mysql -A -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -proot test'
+
+for file in newlibs/*; do
+    docker cp $file db_test:/usr/lib/mysql/plugin/$($file)
+done
+
+docker exec db_test bash -c 'cat /root/libmysqludfta/setup/lib_mysqludf_*_up.sql | mysql -uroot -proot test'
