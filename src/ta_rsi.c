@@ -117,6 +117,9 @@ DLLEXP double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *erro
 		}
 
 		data->previous_close = *value;
+		if ( data->avg_loss == 0 ) {
+			return 100;
+		}
 		return 100 - 100 / ( 1 + (data->avg_gain / data->avg_loss));
 	}
 }
