@@ -93,7 +93,7 @@ DLLEXP double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *erro
 
 	data->current = data->current + 1;
 
-	if ((*periods) + 1 >= data->current) {
+	if ((*periods) >= data->current) {
 		if (*value > data->previous_close)
 			data->avg_gain += *value - data->previous_close;
 		else
@@ -108,7 +108,7 @@ DLLEXP double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *erro
 		else
 			currentLoss = data->previous_close - *value;
 
-		if ((*periods) + 2 == data->current) {
+		if ((*periods) + 1 == data->current) {
 			data->avg_gain = (data->avg_gain + currentGain) / *periods;
 			data->avg_loss = (data->avg_loss + currentLoss) / *periods;
 		} else {
@@ -117,6 +117,9 @@ DLLEXP double ta_rsi(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *erro
 		}
 
 		data->previous_close = *value;
+		if ( data->avg_loss == 0 ) {
+			return 100;
+		}
 		return 100 - 100 / ( 1 + (data->avg_gain / data->avg_loss));
 	}
 }

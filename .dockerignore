@@ -1,0 +1,5 @@
+.dockerignore
+.dockertag
+.git
+autom4te.cache
+windows
